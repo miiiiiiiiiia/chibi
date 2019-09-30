@@ -2,4 +2,4 @@
 def calc(s):
     return int(s)
 
-calc("1")
+print(calc("1"))
