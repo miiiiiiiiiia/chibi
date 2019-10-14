@@ -24,7 +24,7 @@ e = Add(Val(1), Val(2))   #1+2
 print(e.eval())
 assert e.eval() == 3
 
+e = Add(Val(1),Add(Val(2),Val(3)))  #1+2+3
+print(e.eval())
 
-#1+2+3
-
-
+print()
