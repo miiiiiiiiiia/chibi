@@ -33,5 +33,5 @@ def parse(s: str):
 e = parse("1*2+3")
 print(e, e.eval())
 e = parse("1+2*3")
-print(e.eval())     #-4
+print(e,e.eval())     #-4
 #assert e.eval() == -4
