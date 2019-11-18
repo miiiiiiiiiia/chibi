@@ -42,4 +42,3 @@ def parse(s: str):
        
 e = parse("1-2-3")
 print(e, e.eval())
-assert e.eval() == -4
