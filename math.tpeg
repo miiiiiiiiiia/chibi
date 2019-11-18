@@ -1,9 +1,8 @@
 
-example Zip 141-0001
-
-Zip = {
-    Value '-' Value
-    #Zip
+example Expr 1+2+3
+Expr = {
+    Value ('+' Value)+
+    #Add
 }
 
 Value = { DIGIT+ #Int }
