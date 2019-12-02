@@ -9,16 +9,24 @@ parser = pegpy.generate(peg)
 t = parser('1+2*3')
 print(repr(t))
 
-def clac(t):
+def calc(t):
     if t == 'Int':
         return int(str(t))
     if t == 'Add':
-        return clac(t[0]) + clac(t[1])
+        return calc(t[0]) + calc(t[1])
     if t == 'Mul':
-        return clac(t[0]) * clac(t[1])
+        return calc(t[0]) * calc(t[1])
     print(f'TODO {t.tag}')
     return 0
 
-t = parser('1+2*3+4*5')
-print(repr(t))
-print(clac(t))
+#t = parser('1+2*3+4*5')
+#print(repr(t))
+#print(clac(t))
+
+def main():
+    s = input('$ ')
+    t = parser(s)
+    print(calc(t))
+
+if __name__== '__main__':
+    main()
