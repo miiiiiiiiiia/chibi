@@ -53,31 +53,21 @@ class Mod(Binary):
     def eval(self, env: dict):
         return self.left.eval(env) % self.right.eval(env)
 class Var(Expr):
-    __slots__ = ['name']    
-    def __init__(self,name):
-        self.name = name 
-    def eval(self,env:dict):
+    __slots__ = ['name']
+    def __init__(self, name):
+        self.name = name
+    def eval(self, env: dict):
         if self.name in env:
             return env[self.name]
-        return 0
+        raise NameError(self.name)
 class Assign(Expr):
-    __slots__ = ['name','e']
-    def __init__(self,name:str,e:Expr):
+    __slots__ = ['name', 'e']
+    def __init__(self, name, e):
         self.name = name
         self.e = Expr.new(e)
-    def eval(self,new):
+    def eval(self, env):
         env[self.name] = self.e.eval(env)
         return env[self.name]
-env = {}
-e = Assign('x',Val(1))
-print(e.eval(env))
-e = Assign('x',Add(Var('x'),Val(2)))
-print(e.eval(env))
-try:
-    e=Var('x')
-    print(e.eval({}))
-except NameError:
-    print("未定義の変数です")
 def conv(tree):
     if tree == 'Block':
         return conv(tree[0])
@@ -86,7 +76,7 @@ def conv(tree):
     if tree == 'Add':
         return Add(conv(tree[0]), conv(tree[1]))
     if tree == 'Sub':
-        return Sub(conv(tree[0]), conv(tree[1]))
+        return Sub(conv(tree[0]), conv(tree[1]))    
     if tree == 'Mul':
         return Mul(conv(tree[0]), conv(tree[1]))
     if tree == 'Div':
@@ -95,17 +85,17 @@ def conv(tree):
         return Mod(conv(tree[0]), conv(tree[1]))
     if tree == 'Var':
         return Var(str(tree))
-    if tree =='LetDecl':
-        return Assign(str(tree[0]),conv(tree[1]))
-    print('@TODO', tree.tag)
+    if tree == 'LetDecl':
+        return Assign(str(tree[0]), conv(tree[1]))
+    print('@TODO', tree.tag, repr(tree))
     return Val(str(tree))
-def run(src: str,env:dict):
+def run(src: str, env: dict):
     tree = parser(src)
     if tree.isError():
         print(repr(tree))
     else:
         e = conv(tree)
-        print('env',env)
+        print('env', env)
         print(e.eval(env))
 def main():
     try:
@@ -114,7 +104,7 @@ def main():
             s = input('>>> ')
             if s == '':
                 break
-            run(s,env)
+            run(s, env)
     except EOFError:
         return
 if __name__ == '__main__':
